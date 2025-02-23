@@ -16,8 +16,8 @@
   "commands": {
     "send_url": {
       "suggested_key": {
-        "mac": "Command+B",
-        "default": "Ctrl+B"
+        "mac": "Command+P",
+        "default": "Ctrl+P"
       },
       "description": "Send current tab URL to server"
     }
