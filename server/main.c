@@ -19,12 +19,21 @@ static void ev_handler(struct mg_connection *c, int ev, void *ev_data) {
       char *url = mg_json_get_str(hm->body, "$.url");
       printf("Received url: %s\n", url);
 
-      char cmd[500];
-      snprintf(cmd, sizeof(cmd), "fish -c \"launchKitty '%s'\"", url);
-      system(cmd);
+      char *branch = mg_json_get_str(hm->body, "$.branch");
+      printf("Received branch: %s\n", branch);
 
+      char cmd[500];
+      if (branch != NULL) {
+        snprintf(cmd, sizeof(cmd), "fish -c \"launchKittyGithubUrl '%s' '%s'\"", url, branch);
+      }
+      else {
+        snprintf(cmd, sizeof(cmd), "fish -c \"launchKittyGithubUrl '%s'\"", url);
+      }
+
+      system(cmd);
       mg_http_reply(c, 200, "", "{%m:%lu}\n", MG_ESC("time"), time(NULL));
-    } else {
+    }
+    else {
       mg_http_reply(c, 500, "", "{%m:%m}\n", MG_ESC("error"),
                     MG_ESC("Unsupported URI"));
     }
