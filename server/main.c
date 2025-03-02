@@ -20,17 +20,14 @@ static void ev_handler(struct mg_connection *c, int ev, void *ev_data) {
       printf("Received url: %s\n", url);
 
       char *branch = mg_json_get_str(hm->body, "$.branch");
+      if (branch == NULL) branch = "";
+
       printf("Received branch: %s\n", branch);
 
       char cmd[500];
-      if (branch != NULL) {
-        snprintf(cmd, sizeof(cmd), "fish -c \"launchKittyGithubUrl '%s' '%s'\"", url, branch);
-      }
-      else {
-        snprintf(cmd, sizeof(cmd), "fish -c \"launchKittyGithubUrl '%s'\"", url);
-      }
-
+      snprintf(cmd, sizeof(cmd), "fish -c \"launchKittyGithubUrl '%s' '%s'\"", url, branch);
       system(cmd);
+
       mg_http_reply(c, 200, "", "{%m:%lu}\n", MG_ESC("time"), time(NULL));
     }
     else {
