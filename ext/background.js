@@ -16,6 +16,7 @@ chrome.commands.onCommand.addListener((command) => {
       if (tabs.length > 0) {
         chrome.tabs.sendMessage(tabs[0].id, { action: "extract_data" }, (response) => {
           if (response) {
+            console.log("Send response", response);
             sendDataToServer(response);
           }
         });
