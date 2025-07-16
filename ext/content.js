@@ -12,7 +12,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       // it doesn't use .head-ref
       const fromCommitAnchor = Array.from(document.querySelectorAll("span")).find(span => span.textContent == "from ");
       if (fromCommitAnchor)
-        pageData.branch = fromCommitAnchor.nextElementSibling.textContent;
+        pageData.branch = fromCommitAnchor.nextElementSibling.getElementsByTagName('a')[0].textContent;
     }
 
     sendResponse(pageData);
